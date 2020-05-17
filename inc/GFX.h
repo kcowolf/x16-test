@@ -6,7 +6,7 @@
 #define PALBG1_FILENAME "palbg1.bin"
 
 #define TSBG1_FILENAME "tsbg1.bin"
-#define TSBG1_TILE_COUNT 443
+#define TSBG1_TILE_COUNT 444
 
 #define TMBG1_FILENAME "tmbg1.bin"
 #define TMBG1_TILE_WIDTH 40
