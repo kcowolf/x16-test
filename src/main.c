@@ -63,12 +63,12 @@ int main()
 
     initTileMap();
 
-	return 0;
+    return 0;
 }
 
 void initTileMap()
 {
-	uint8_t x = 0;
+    uint8_t x = 0;
     uint8_t y = 0;
     uint16_t* tilemap = (uint16_t*)BANKED_RAM_START;
 
@@ -76,25 +76,25 @@ void initTileMap()
     VIA1.pra = BKG1_MBANK;
 
     for (y = 0; y < TMBG1_TILE_HEIGHT; y++)
-	{
+    {
         for (x = 0; x < TMBG1_TILE_WIDTH; x++)
-		{
+        {
             uint16_t tile = tilemap[(y * TMBG1_TILE_WIDTH) + x];
-			setBackgroundTile(x, y, tile);  // Doesn't work -- black screen
+            setBackgroundTile(x, y, tile);  // Doesn't work -- black screen
             //setForegroundTile(x, y, tile);  // Works as expected -- draws the image
         }
-	}
+    }
 }
 
 void initVera()
 {
-	uint8_t x = 0;
+    uint8_t x = 0;
     uint8_t y = 0;
 
-	// Initialize VERA
-	VERA.control = 0;
+    // Initialize VERA
+    VERA.control = 0;
 
-	// Initialize VERA
+    // Initialize VERA
     VERA.display.hscale = VERA_SCALE_1x;
     VERA.display.vscale = VERA_SCALE_1x;
 
@@ -132,34 +132,34 @@ int loadResources()
     // Load palette
     result = vload_host(PALBG1_FILENAME, PALETTE_ADDR);
     if (!result)
-	{
-		printf("  failed to load palette\n");
-		return 0;
-	}
+    {
+        printf("  failed to load palette\n");
+        return 0;
+    }
 
-	// Load background tileset
+    // Load background tileset
     result = vload_host(TSBG1_FILENAME, BACKGROUND_TILE_BASE_ADDR);
     if (!result)
-	{
+    {
         printf("  failed to load bg tiles\n");
         return 0;
     }
 
-	// Load foreground tileset
+    // Load foreground tileset
     result = vload_host(TSBG1_FILENAME, FOREGROUND_TILE_BASE_ADDR);
     if (!result)
-	{
+    {
         printf("  failed to load fg tiles\n");
         return 0;
     }
 
-	// Load background tilemap to bank
+    // Load background tilemap to bank
     result = load_bank_host(TMBG1_FILENAME, BKG1_MBANK);
     if (!result) 
-	{
+    {
         printf("  failed to load bg tilemap\n");
         return 0;
-	}
+    }
 
     return 1;
 }
