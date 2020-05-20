@@ -30,7 +30,6 @@
 #define PLANE_HEIGHT 32
 
 #define BANKED_RAM_START 0xA000
-#define BKG1_MBANK 21
 
 void initTileMap();
 
@@ -54,36 +53,14 @@ void setForegroundTile
 
 int main()
 {
+    initVera();
+
     if (!loadResources())
     {
         return 1;
     }
 
-    initVera();
-
-    initTileMap();
-
     return 0;
-}
-
-void initTileMap()
-{
-    uint8_t x = 0;
-    uint8_t y = 0;
-    uint16_t* tilemap = (uint16_t*)BANKED_RAM_START;
-
-    // Write background tilemap to VRAM
-    VIA1.pra = BKG1_MBANK;
-
-    for (y = 0; y < TMBG1_TILE_HEIGHT; y++)
-    {
-        for (x = 0; x < TMBG1_TILE_WIDTH; x++)
-        {
-            uint16_t tile = tilemap[(y * TMBG1_TILE_WIDTH) + x];
-            setBackgroundTile(x, y, tile);  // Doesn't work -- black screen
-            //setForegroundTile(x, y, tile);  // Works as expected -- draws the image
-        }
-    }
 }
 
 void initVera()
@@ -153,8 +130,8 @@ int loadResources()
         return 0;
     }
 
-    // Load background tilemap to bank
-    result = load_bank_host(TMBG1_FILENAME, BKG1_MBANK);
+    // Load background tilemap to VRAM
+    result = vload_host(TMBG1_FILENAME, FOREGROUND_MAP_BASE_ADDR);  // TODO -- Using BACKGROUND_MAP_BASE_ADDR only shows black screen.
     if (!result) 
     {
         printf("  failed to load bg tilemap\n");
